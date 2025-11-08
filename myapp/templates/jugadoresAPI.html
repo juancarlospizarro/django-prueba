@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Jugadores{% endblock %}
+    {% block content %}
+
+  <div class="container">
+    <h1 class="mb-4 text-center">Lista de Jugadores</h1>
+    <ul id="jugadores-lista" class="list-group"></ul>
+  </div>
+
+  <script>
+    const url = "http://127.0.0.1:8000/api/jugadores";
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const lista = document.getElementById("jugadores-lista");
+        data.forEach(j => {
+          const li = document.createElement("li");
+          li.className = "list-group-item d-flex justify-content-between align-items-center";
+          li.textContent = `${j.nombre} (${j.posicion})`;
+          const goles = document.createElement("span");
+          goles.className = "badge bg-primary rounded-pill";
+          goles.textContent = j.goles;
+          li.appendChild(goles);
+          lista.appendChild(li);
+        });
+      });
+  </script>
+{% endblock %}
